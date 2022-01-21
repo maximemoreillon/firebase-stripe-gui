@@ -1,0 +1,83 @@
+<template>
+  <v-card
+    :loading="loading">
+
+
+    <v-card-title>Products</v-card-title>
+
+    <v-card-text>
+      <v-row justify="space-between">
+        <v-col
+          cols="auto"
+          v-for="(product, index) in products"
+          :key="`product_${index}`">
+          <ProductPreview
+            :product="product"/>
+        </v-col>
+      </v-row>
+    </v-card-text>
+
+
+
+  </v-card>
+</template>
+
+<script>
+
+import { firestore } from '@/db.js'
+import {
+  collection,
+  getDocs,
+} from "firebase/firestore"
+
+import ProductPreview from '@/components/ProductPreview.vue'
+
+export default {
+  name: 'Products',
+  components: {
+    ProductPreview
+  },
+  data(){
+    return {
+      loading: false,
+      products: [],
+    }
+  },
+  mounted(){
+    this.get_products()
+  },
+  watch: {
+    user(){
+      this.get_products()
+    }
+  },
+  methods: {
+
+
+    async get_products(){
+      if(!this.user) return
+      this.loading = true
+      try {
+        const collectionRef = collection(firestore, "products")
+        const querySnapshot = await getDocs(collectionRef)
+        this.products = querySnapshot.docs.map( doc => ({id: doc.id, data: doc.data() }) )
+      } catch (e) {
+        console.error(e);
+      } finally {
+        this.loading = false
+      }
+
+    },
+    row_clicked({id}){
+      this.$router.push({name: 'product', params: {product_id: id}})
+    }
+  },
+  computed: {
+    user(){
+      return this.$store.state.user
+    }
+  }
+
+
+}
+</script>

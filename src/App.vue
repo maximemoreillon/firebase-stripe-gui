@@ -1,32 +1,73 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+  <v-app>
+    <v-app-bar
+      app
+      clipped-left
+      color="#444444"
+      dark>
+
+      <v-app-bar-nav-icon @click="drawer = !drawer" />
+
+
+      <v-toolbar-title>Firebase + Stripe + Vue</v-toolbar-title>
+
+    </v-app-bar>
+
+    <v-navigation-drawer
+      v-model="drawer"
+      clipped
+      app>
+
+      <v-list>
+        <v-list-item
+          v-for="(item, index) in nav"
+          :key="`nav_item_${index}`"
+          :to="item.to"
+          exact>
+
+          <v-list-item-icon>
+            <v-icon>{{item.icon}}</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>{{item.title}}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+      </v-list>
+
+
+    </v-navigation-drawer>
+
+
+    <v-main class="grey lighten-4">
+      <v-container>
+        <router-view/>
+      </v-container>
+    </v-main>
+
+  </v-app>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import {onAuthStateChanged, getAuth} from "firebase/auth"
 
-#nav {
-  padding: 30px;
-}
+export default {
+  name: 'App',
+  data: () => ({
+    drawer: null,
+    nav: [
+      {title: 'Home', icon: 'mdi-home', to: {name: 'home'}},
+      {title: 'Login', icon: 'mdi-login', to: {name: 'login'}},
+      {title: 'Register', icon: 'mdi-plus', to: {name: 'register'}},
+      // {title: 'Account', icon: 'mdi-account', to: {name: 'account'}},
+      {title: 'Products', icon: 'mdi-cart', to: {name: 'products'}},
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
+    ],
+  }),
+  mounted(){
+    const auth = getAuth()
+    onAuthStateChanged(auth, user => { this.$store.commit('set_user',user) })
+  }
+};
+</script>
