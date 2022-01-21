@@ -9,7 +9,7 @@
       <v-row justify="space-between">
         <v-col
           cols="auto"
-          v-for="(product, index) in products"
+          v-for="(product, index) in filtered_products"
           :key="`product_${index}`">
           <ProductPreview
             :product="product"/>
@@ -80,6 +80,9 @@ export default {
   computed: {
     user(){
       return this.$store.state.user
+    },
+    filtered_products(){
+      return this.products.filter( p => p.data.active)
     }
   }
 

@@ -67,7 +67,6 @@ export default {
         const paymentsCollectionRef = collection(customerDocRef, "payments")
         const querySnapshot = await getDocs(paymentsCollectionRef)
         this.payments = querySnapshot.docs.map( doc => doc.data() )
-        console.log(this.payments);
       } catch (e) {
         console.error(e);
       } finally {
