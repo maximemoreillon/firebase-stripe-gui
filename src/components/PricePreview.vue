@@ -43,8 +43,6 @@ export default {
         mode: this.mode,
       };
 
-      console.log(this.price);
-
       try {
         const customersCollectionRef = collection(firestore, 'customers')
         const customerDocRef = doc(customersCollectionRef, this.user.uid)

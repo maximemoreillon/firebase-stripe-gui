@@ -58,8 +58,8 @@ export default {
     drawer: null,
     nav: [
       {title: 'Login', icon: 'mdi-login', to: {name: 'login'}},
-      // {title: 'Register', icon: 'mdi-plus', to: {name: 'register'}},
       {title: 'Products', icon: 'mdi-cart', to: {name: 'products'}},
+      {title: 'Payments', icon: 'mdi-card', to: {name: 'payments'}},
 
     ],
   }),

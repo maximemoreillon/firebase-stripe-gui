@@ -16,6 +16,12 @@ const routes = [
     component: () => import('../views/Product.vue')
   },
   {
+    path: '/payments',
+    name: 'payments',
+    component: () => import('../views/Payments.vue'),
+    alias: '/',
+  },
+  {
     path: '/success',
     name: 'success',
     component: () => import('../views/PaymentSuccess.vue')
