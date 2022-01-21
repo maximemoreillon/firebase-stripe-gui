@@ -17,6 +17,11 @@
       </v-row>
     </v-card-text>
 
+    <v-card-text
+      v-if="!user">
+      You must be logged in to view this page
+    </v-card-text>
+
 
 
   </v-card>

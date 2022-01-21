@@ -43,6 +43,8 @@ export default {
         mode: this.mode,
       };
 
+      console.log(this.price);
+
       try {
         const customersCollectionRef = collection(firestore, 'customers')
         const customerDocRef = doc(customersCollectionRef, this.user.uid)
@@ -55,13 +57,15 @@ export default {
         onSnapshot(checkoutDocRef, (doc) => {
           const {url} = doc.data()
           if(url) window.location.assign(url);
+          this.loading = false
         });
       }
       catch (e) {
         console.error(e);
+        this.loading = false
       }
       finally {
-        this.loading = false
+        //this.loading = false
       }
 
 
@@ -84,7 +88,7 @@ export default {
       return [{price: this.price.id, quantity: 1}]
     },
     mode(){
-      if(this.price.type === 'one_time') return 'payment'
+      if(this.price.data.type === 'one_time') return 'payment'
       else return 'subscription'
     }
   }

@@ -9,7 +9,7 @@
       <v-app-bar-nav-icon @click="drawer = !drawer" />
 
 
-      <v-toolbar-title>Firebase + Stripe + Vue</v-toolbar-title>
+      <v-toolbar-title>Firebase + Stripe + Stripe extension + Vue</v-toolbar-title>
 
     </v-app-bar>
 
@@ -57,10 +57,8 @@ export default {
   data: () => ({
     drawer: null,
     nav: [
-      {title: 'Home', icon: 'mdi-home', to: {name: 'home'}},
       {title: 'Login', icon: 'mdi-login', to: {name: 'login'}},
-      {title: 'Register', icon: 'mdi-plus', to: {name: 'register'}},
-      // {title: 'Account', icon: 'mdi-account', to: {name: 'account'}},
+      // {title: 'Register', icon: 'mdi-plus', to: {name: 'register'}},
       {title: 'Products', icon: 'mdi-cart', to: {name: 'products'}},
 
     ],
