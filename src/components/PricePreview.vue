@@ -55,7 +55,6 @@ export default {
         onSnapshot(checkoutDocRef, (doc) => {
           const {url} = doc.data()
           if(url) window.location.assign(url);
-          this.loading = false
         });
       }
       catch (e) {

@@ -22,6 +22,12 @@ const routes = [
     alias: '/',
   },
   {
+    path: '/subscriptions',
+    name: 'subscriptions',
+    component: () => import('../views/Subscriptions.vue'),
+    alias: '/',
+  },
+  {
     path: '/success',
     name: 'success',
     component: () => import('../views/PaymentSuccess.vue')

@@ -49,6 +49,7 @@ export default {
   },
   mounted(){
     this.get_products()
+
   },
   watch: {
     user(){
@@ -56,7 +57,6 @@ export default {
     }
   },
   methods: {
-
 
     async get_products(){
       if(!this.user) return

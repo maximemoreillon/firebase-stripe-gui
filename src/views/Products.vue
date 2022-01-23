@@ -6,7 +6,7 @@
     <v-card-title>Products</v-card-title>
 
     <v-card-text>
-      <v-row justify="space-between">
+      <v-row justify="space-around">
         <v-col
           cols="auto"
           v-for="(product, index) in filtered_products"

@@ -60,12 +60,16 @@ export default {
       {title: 'Login', icon: 'mdi-login', to: {name: 'login'}},
       {title: 'Products', icon: 'mdi-cart', to: {name: 'products'}},
       {title: 'Payments', icon: 'mdi-card', to: {name: 'payments'}},
+      {title: 'Subscriptions', icon: 'mdi-format-list-bulleted', to: {name: 'subscriptions'}},
 
     ],
   }),
   mounted(){
+    // This is probably not the best place for this
     const auth = getAuth()
-    onAuthStateChanged(auth, user => { this.$store.commit('set_user',user) })
+    onAuthStateChanged(auth, user => {
+      this.$store.commit('set_user',user)
+    })
   }
 };
 </script>
