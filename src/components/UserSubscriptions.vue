@@ -56,7 +56,6 @@ export default {
         const subscriptionsCollectionRef = collection(customerDocRef, 'subscriptions')
         const querySnapshot = await getDocs(subscriptionsCollectionRef)
         this.subscriptions = querySnapshot.docs.map( doc => ({id: doc.id, data: doc.data()}) )
-        console.log(this.subscriptions);
       }
       catch (e) {
         console.error(e);
