@@ -57,6 +57,7 @@ export default {
   data: () => ({
     drawer: null,
     nav: [
+      {title: 'Home', icon: 'mdi-home', to: {name: 'home'}},
       {title: 'Login', icon: 'mdi-login', to: {name: 'login'}},
       {title: 'Products', icon: 'mdi-cart', to: {name: 'products'}},
       {title: 'Payments', icon: 'mdi-card', to: {name: 'payments'}},
