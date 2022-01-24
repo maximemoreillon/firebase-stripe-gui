@@ -1,12 +1,10 @@
 <template>
-  <v-card
-    :loading="loading">
-
-
+  <v-card>
     <v-card-title>Payments</v-card-title>
 
     <v-card-text>
       <v-data-table
+        :loading="loading"
         :items="payments"
         :headers="headers"></v-data-table>
     </v-card-text>

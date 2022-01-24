@@ -10,6 +10,11 @@ const routes = [
     component: () => import('../views/Home.vue'),
   },
   {
+    path: '/account',
+    name: 'account',
+    component: () => import('../views/Account.vue'),
+  },
+  {
     path: '/products',
     name: 'products',
     component: () => import('../views/Products.vue'),
@@ -19,18 +24,6 @@ const routes = [
     path: '/products/:product_id',
     name: 'product',
     component: () => import('../views/Product.vue')
-  },
-  {
-    path: '/payments',
-    name: 'payments',
-    component: () => import('../views/Payments.vue'),
-    alias: '/',
-  },
-  {
-    path: '/subscriptions',
-    name: 'subscriptions',
-    component: () => import('../views/Subscriptions.vue'),
-    alias: '/',
   },
   {
     path: '/success',

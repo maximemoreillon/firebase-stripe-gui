@@ -58,10 +58,10 @@ export default {
     drawer: null,
     nav: [
       {title: 'Home', icon: 'mdi-home', to: {name: 'home'}},
+      {title: 'My account', icon: 'mdi-account', to: {name: 'account'}},
+
       {title: 'Login', icon: 'mdi-login', to: {name: 'login'}},
       {title: 'Products', icon: 'mdi-cart', to: {name: 'products'}},
-      {title: 'Payments', icon: 'mdi-card', to: {name: 'payments'}},
-      {title: 'Subscriptions', icon: 'mdi-format-list-bulleted', to: {name: 'subscriptions'}},
 
     ],
   }),

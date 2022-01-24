@@ -66,7 +66,6 @@ export default {
         const collectionRef = collection(firestore, "products")
         const querySnapshot = await getDocs(collectionRef)
         this.products = querySnapshot.docs.map( doc => ({id: doc.id, data: doc.data() }) )
-        console.log(this.products);
       } catch (e) {
         console.error(e);
       } finally {
