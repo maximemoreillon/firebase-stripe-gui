@@ -9,9 +9,14 @@
       height="250"
       :src="product.data.images[0]"/>
 
-    <v-card-title>{{product.data.name}}</v-card-title>
-    <v-card-subtitle>{{product.data.description}}</v-card-subtitle>
-    
+    <v-card-title class="justify-center">
+      {{product.data.name}}
+    </v-card-title>
+
+    <v-card-subtitle class="text-center">
+      {{product.data.description}}
+    </v-card-subtitle>
+
   </v-card>
 </template>
 

@@ -2,12 +2,7 @@
   <v-card
     :loading="loading">
 
-    
-
     <v-card-title>Products</v-card-title>
-
-
-
 
     <v-card-text>
       <v-row justify="space-around">
@@ -15,8 +10,9 @@
           cols="auto"
           v-for="(product, index) in filtered_products"
           :key="`product_${index}`">
-          <ProductPreview
-            :product="product"/>
+
+          <ProductPreview :product="product"/>
+
         </v-col>
       </v-row>
     </v-card-text>
@@ -25,8 +21,6 @@
       v-if="!user">
       You must be logged in to view this page
     </v-card-text>
-
-
 
   </v-card>
 </template>
@@ -70,16 +64,15 @@ export default {
         const collectionRef = collection(firestore, "products")
         const querySnapshot = await getDocs(collectionRef)
         this.products = querySnapshot.docs.map( doc => ({id: doc.id, data: doc.data() }) )
-      } catch (e) {
+      }
+      catch (e) {
         console.error(e);
-      } finally {
+      }
+      finally {
         this.loading = false
       }
-
     },
-    row_clicked({id}){
-      this.$router.push({name: 'product', params: {product_id: id}})
-    }
+
   },
   computed: {
     user(){
