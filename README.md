@@ -1,6 +1,11 @@
 # Firebase + Stripe extension
 Experimenting with the Stripe extension for Firebase
 
+## useful links
+
+* Stripe test cards: https://stripe.com/docs/testing#cards
+* Stripe extension for Firebase: https://firebase.google.com/products/extensions/stripe-firestore-stripe-payments
+
 ## Features
 
 * Stripe integration using the official Stripe extension for Firebase

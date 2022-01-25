@@ -21,10 +21,6 @@
       </v-card-text>
     </template>
 
-
-
-
-
   </v-card>
 </template>
 
