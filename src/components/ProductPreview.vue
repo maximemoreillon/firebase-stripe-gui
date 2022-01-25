@@ -2,12 +2,16 @@
   <v-card
     height="100%"
     width="250"
-    :to="{name: 'product', params: {product_id: product.id}}">
+    :to="{name: 'product', params: {product_id: product.id}}"
+    hover>
+
     <v-img
       height="250"
       :src="product.data.images[0]"/>
+
     <v-card-title>{{product.data.name}}</v-card-title>
     <v-card-subtitle>{{product.data.description}}</v-card-subtitle>
+    
   </v-card>
 </template>
 
@@ -17,8 +21,5 @@
     props: {
       product: Object,
     },
-    data: () => ({
-
-    }),
   }
 </script>

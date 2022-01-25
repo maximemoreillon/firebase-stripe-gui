@@ -3,24 +3,46 @@
     :loading="loading">
 
     <template v-if="product">
-      <v-card-title>{{product.name}}</v-card-title>
-      <v-card-text>{{product.description}}</v-card-text>
+      <v-toolbar flat>
+        <v-row align="center">
+          <v-col cols="auto">
+            <v-btn
+              icon
+              exact
+              :to="{name: 'products'}">
+              <v-icon>mdi-arrow-left</v-icon>
+            </v-btn>
+          </v-col>
+          <v-col>
+            <v-card-title>{{product.name}}</v-card-title>
+            <v-card-subtitle>{{product.description}}</v-card-subtitle>
+          </v-col>
+        </v-row>
+      </v-toolbar>
+
+      <v-card-text>
+
+        <v-card
+          :loading="prices_loading"
+          outlined>
+          <v-card-title>Price plans</v-card-title>
+          <v-card-text>
+            <v-row>
+              <v-col
+                cols="auto"
+                v-for="(price, index) in prices"
+                :key="`price_${index}`">
+                <PricePreview :price="price"/>
+              </v-col>
+            </v-row>
+          </v-card-text>
+
+        </v-card>
+        
+      </v-card-text>
     </template>
 
-    <v-card-text class="text-h6">Price plans</v-card-text>
-
-    <v-card-text>
-      <v-row>
-        <v-col
-          cols="auto"
-          v-for="(price, index) in prices"
-          :key="`price_${index}`">
-          <PricePreview
-            :price="price"/>
-        </v-col>
-      </v-row>
-    </v-card-text>
-
+    <v-card-text v-else>Error querying item</v-card-text>
 
 
   </v-card>
@@ -49,12 +71,6 @@ export default {
       loading: false,
       prices: [],
       prices_loading: false,
-      prices_headers: [
-        {text: 'Currency', value: 'data.currency'},
-        {text: 'Interval', value: 'data.interval'},
-        {text: 'Price per interval', value: 'data.unit_amount'},
-      ]
-
     }
   },
   mounted(){
@@ -78,13 +94,17 @@ export default {
         const docRef = doc(collectionRef,this.product_id)
         const querySnapshot = await getDoc(docRef)
         this.product = querySnapshot.data()
-      } catch (e) {
+      }
+      catch (e) {
         console.error(e);
-      } finally {
+        alert('Failed to get product data')
+      }
+      finally {
         this.loading = false
       }
 
     },
+
     async get_prices(){
       if(!this.user) return
       this.loading = true
@@ -94,22 +114,17 @@ export default {
         const PricesCollectionRef = collection(docRef, 'prices')
         const querySnapshot = await getDocs(PricesCollectionRef)
         this.prices = querySnapshot.docs.map( doc => ({id: doc.id, data: doc.data() }) )
-      } catch (e) {
+      }
+      catch (e) {
         console.error(e);
-      } finally {
+        alert('Failed to get prices')
+      }
+      finally {
         this.loading = false
       }
 
     },
-    row_clicked({id}){
-      this.$router.push({
-        name: 'price',
-        params: {
-          product_id: this.product_id,
-          price_id: id
-        }
-      })
-    }
+
   },
   computed: {
     user(){

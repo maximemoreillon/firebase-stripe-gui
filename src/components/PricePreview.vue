@@ -1,11 +1,13 @@
 <template>
   <v-card
     :loading="loading"
-    width="200"
-    @click="checkout()">
+    width="250"
+    @click="checkout()"
+    hover>
 
-    <v-card-title>
-      {{price.data.currency}} {{price.data.unit_amount}} {{price.data.type === "one_time" ? '' : ` /${price.data.interval}`}}
+    <v-card-title
+      class="justify-center">
+      {{price.data.currency.toUpperCase()}} {{price.data.unit_amount}} {{price.data.type === "one_time" ? '' : ` / ${price.data.interval}`}}
     </v-card-title>
 
 
@@ -38,8 +40,8 @@ export default {
       const checkoutSession = {
         collect_shipping_address: false,
         line_items: this.lineItems,
-        success_url: `${location.protocol}//${location.host}/success`,
-        cancel_url: `${location.protocol}//${location.host}/cancel`,
+        success_url: `${window.location.origin}/success`,
+        cancel_url: `${window.location.origin}/cancel`,
         mode: this.mode,
       };
 
@@ -51,14 +53,16 @@ export default {
         const newDoc = await addDoc(checkoutSessionsCollectionRef, checkoutSession)
         const checkoutDocRef = doc(checkoutSessionsCollectionRef, newDoc.id)
 
-        // Wait for checkotu URL to be generated server-side
+        // Wait for checkout URL to be generated server-side
         onSnapshot(checkoutDocRef, (doc) => {
-          const {url} = doc.data()
-          if(url) window.location.assign(url);
-        });
+          const { url } = doc.data()
+          if(url) window.location.assign(url)
+        })
+
       }
       catch (e) {
-        console.error(e);
+        console.error(e)
+        alert('Payment failed')
         this.loading = false
       }
       finally {
@@ -80,7 +84,6 @@ export default {
     product_id(){
       return this.$route.params.product_id
     },
-
     lineItems() {
       return [{price: this.price.id, quantity: 1}]
     },

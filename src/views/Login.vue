@@ -66,8 +66,6 @@
       </v-card-text>
     </template>
 
-
-
   </v-card>
 </template>
 
@@ -80,9 +78,6 @@ import {
 
 export default {
   name: 'Register',
-  components: {
-
-  },
   data(){
     return {
       email: null,
@@ -98,14 +93,14 @@ export default {
       try {
         const auth = getAuth()
         await signInWithEmailAndPassword(auth, this.email, this.password)
-      } catch (e) {
+      }
+      catch (e) {
         alert(e)
         console.error(e);
-      } finally {
+      }
+      finally {
         this.logging_in = false
       }
-
-
 
     },
     async logout(){
