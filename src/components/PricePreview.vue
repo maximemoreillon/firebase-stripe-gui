@@ -1,30 +1,18 @@
 <template>
-  <v-card
-    :loading="loading"
-    width="250"
-    @click="checkout()"
-    hover>
-
-    <v-card-title
-      class="justify-center">
-      {{price.data.currency.toUpperCase()}} {{price.data.unit_amount}} {{price.data.type === "one_time" ? '' : ` / ${price.data.interval}`}}
+  <v-card :loading="loading" width="250" @click="checkout()" hover>
+    <v-card-title class="justify-center">
+      {{ price.data.currency.toUpperCase() }} {{ price.data.unit_amount }}
+      {{ price.data.type === "one_time" ? "" : ` / ${price.data.interval}` }}
     </v-card-title>
-
-
   </v-card>
 </template>
 
 <script>
-import { firestore } from '@/db.js'
-import {
-  collection,
-  doc,
-  addDoc,
-  onSnapshot
-} from "firebase/firestore"
+import { firestore } from "@/firebase"
+import { collection, doc, addDoc, onSnapshot } from "firebase/firestore"
 
 export default {
-  name: 'PricePreview',
+  name: "PricePreview",
   props: {
     price: Object,
   },
@@ -33,8 +21,7 @@ export default {
   }),
 
   methods: {
-    async checkout () {
-
+    async checkout() {
       this.loading = true
 
       const checkoutSession = {
@@ -43,55 +30,50 @@ export default {
         success_url: `${window.location.origin}/success`,
         cancel_url: `${window.location.origin}/cancel`,
         mode: this.mode,
-      };
+      }
 
       try {
-        const customersCollectionRef = collection(firestore, 'customers')
+        const customersCollectionRef = collection(firestore, "customers")
         const customerDocRef = doc(customersCollectionRef, this.user.uid)
-        const checkoutSessionsCollectionRef = collection(customerDocRef, 'checkout_sessions')
+        const checkoutSessionsCollectionRef = collection(
+          customerDocRef,
+          "checkout_sessions"
+        )
 
-        const newDoc = await addDoc(checkoutSessionsCollectionRef, checkoutSession)
+        const newDoc = await addDoc(
+          checkoutSessionsCollectionRef,
+          checkoutSession
+        )
         const checkoutDocRef = doc(checkoutSessionsCollectionRef, newDoc.id)
 
         // Wait for checkout URL to be generated server-side
         onSnapshot(checkoutDocRef, (doc) => {
           const { url } = doc.data()
-          if(url) window.location.assign(url)
+          if (url) window.location.assign(url)
         })
-
-      }
-      catch (e) {
+      } catch (e) {
         console.error(e)
-        alert('Payment failed')
+        alert("Payment failed")
         this.loading = false
-      }
-      finally {
+      } finally {
         //this.loading = false
       }
-
-
-
-
-
-
-
     },
   },
   computed: {
-    user(){
+    user() {
       return this.$store.state.user
     },
-    product_id(){
+    product_id() {
       return this.$route.params.product_id
     },
     lineItems() {
-      return [{price: this.price.id, quantity: 1}]
+      return [{ price: this.price.id, quantity: 1 }]
     },
-    mode(){
-      if(this.price.data.type === 'one_time') return 'payment'
-      else return 'subscription'
-    }
-  }
-
+    mode() {
+      if (this.price.data.type === "one_time") return "payment"
+      else return "subscription"
+    },
+  },
 }
 </script>

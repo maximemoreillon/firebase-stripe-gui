@@ -1,7 +1,5 @@
 <template>
-  <v-card
-    :loading="loading">
-
+  <v-card :loading="loading">
     <v-card-title>Products</v-card-title>
 
     <v-card-text>
@@ -9,80 +7,69 @@
         <v-col
           cols="auto"
           v-for="(product, index) in filtered_products"
-          :key="`product_${index}`">
-
-          <ProductPreview :product="product"/>
-
+          :key="`product_${index}`"
+        >
+          <ProductPreview :product="product" />
         </v-col>
       </v-row>
     </v-card-text>
 
-    <v-card-text
-      v-if="!user">
+    <v-card-text v-if="!user">
       You must be logged in to view this page
     </v-card-text>
-
   </v-card>
 </template>
 
 <script>
+import { firestore } from "@/firebase"
+import { collection, getDocs } from "firebase/firestore"
 
-import { firestore } from '@/db.js'
-import {
-  collection,
-  getDocs,
-} from "firebase/firestore"
-
-import ProductPreview from '@/components/ProductPreview.vue'
+import ProductPreview from "@/components/ProductPreview.vue"
 
 export default {
-  name: 'Products',
+  name: "Products",
   components: {
-    ProductPreview
+    ProductPreview,
   },
-  data(){
+  data() {
     return {
       loading: false,
       products: [],
     }
   },
-  mounted(){
+  mounted() {
     this.get_products()
   },
   watch: {
-    user(){
+    user() {
       this.get_products()
-    }
+    },
   },
   methods: {
-
-
-    async get_products(){
-      if(!this.user) return
+    async get_products() {
+      if (!this.user) return
       this.loading = true
       try {
         const collectionRef = collection(firestore, "products")
         const querySnapshot = await getDocs(collectionRef)
-        this.products = querySnapshot.docs.map( doc => ({id: doc.id, data: doc.data() }) )
-      }
-      catch (e) {
-        console.error(e);
-      }
-      finally {
+        this.products = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          data: doc.data(),
+        }))
+      } catch (e) {
+        console.error(e)
+      } finally {
         this.loading = false
       }
     },
-
   },
   computed: {
-    user(){
+    user() {
       return this.$store.state.user
     },
-    filtered_products(){
-      return this.products.filter( p => p.data.active)
-    }
-  }
-
-
+    filtered_products() {
+      return this.products.filter((p) => p.data.active)
+    },
+  },
 }
 </script>
